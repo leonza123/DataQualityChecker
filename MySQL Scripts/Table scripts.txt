@@ -1,0 +1,52 @@
+use quality_project_db;
+
+CREATE TABLE `DocumentsStorage` (
+  `ID` int NOT NULL AUTO_INCREMENT,
+  `Name` varchar(1000) NOT NULL,
+  `SessionID` varchar(40) NOT NULL,
+  `Modified` datetime NOT NULL,
+  PRIMARY KEY (`ID`)
+);
+
+CREATE TABLE `TableCells` (
+  `ID` int NOT NULL AUTO_INCREMENT,
+  `DocumentID` int NOT NULL,
+  `ColumnNum` int NOT NULL,
+  `RowNum` int NOT NULL,
+  `CellValue` varchar(15000) DEFAULT NULL,
+  PRIMARY KEY (`ID`),
+  FOREIGN KEY (`DocumentID`) REFERENCES DocumentsStorage(ID)
+);
+
+CREATE TABLE `HeaderCells` (
+  `ID` int NOT NULL AUTO_INCREMENT,
+  `DocumentID` int NOT NULL,
+  `ColumnNum` int NOT NULL,
+  `CellValue` varchar(15000) DEFAULT NULL,
+  `Type` varchar(10) DEFAULT NULL,
+  `Nullable` bool,
+  `Unique` bool,
+  `Format` varchar(50) DEFAULT NULL,
+  `HasOptions` bool,
+  PRIMARY KEY (`ID`),
+  FOREIGN KEY (`DocumentID`) REFERENCES DocumentsStorage(ID)
+);
+
+CREATE TABLE `ValidatedCells` (
+  `ID` int NOT NULL AUTO_INCREMENT,
+  `TableCellsID` int NOT NULL,
+  `ErrorCode` double NOT NULL,
+  PRIMARY KEY (`ID`),
+  FOREIGN KEY (`TableCellsID`) REFERENCES TableCells(ID)
+);
+
+//Newly added
+
+CREATE TABLE `ValueOptions` (
+  `ID` int NOT NULL AUTO_INCREMENT,
+  `HeaderID` int NOT NULL,
+  `OptionVal` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`ID`),
+  FOREIGN KEY (`HeaderID`) REFERENCES `HeaderCells` (`ID`)
+);
+

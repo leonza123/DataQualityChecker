@@ -1,0 +1,199 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div id="fileUploadBlock" class="file-upload-block">
+    <div class="form-group" style="font-size:18px;">Upload the file directly</div>
+
+    <div id="fileUploadErrorMessage" class="form-group alert alert-danger" style="display:none"></div>
+    <form>
+        <div class="custom-file">
+            <input type="file" class="custom-file-input" accept=".csv,.xls,.xlsx" name="files" id="files">
+            <label class="custom-file-label" for="customFile">Browse Files...</label>
+        </div>
+    </form>
+
+    <div class="form-group" style="font-size:18px;">Or provide the URL</div>
+
+    <div class="form-group">
+        <input type='text' class='form-control' id='urlInput'>
+    </div>
+
+    <button id="advancedSettingsBtn" class="btn btn-outline-dark" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+        Advanced settings
+    </button>
+    <div class="collapse" id="collapseExample">
+        <div class="card card-body">
+            <div class="form-group form-inline">
+                <label class="form-check-label" for="noHeaderCheckBox">No header: </label>
+                <input type="checkbox" class="form-check-input" id="noHeaderCheckBox">
+            </div>
+
+            <div class="form-group form-inline">
+                <label class="settings-input-label">Header starts on: </label>
+                <div class="input-group spinner">
+                    <input type="number" class="form-control" id="headerStartsOn" value="1">
+                    <div class="input-group-btn-vertical">
+                        <div class="btn btn-default"><i class="fa fa-caret-up"></i></div>
+                        <div class="btn btn-default"><i class="fa fa-caret-down"></i></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group form-inline form-last-elem">
+                <label class="settings-input-label">Rows count: </label>
+                <input type="number" class="form-control range-numeric" id="rowsCount" min="1" placeholder="all">
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <button class="btn btn-primary" id="uploadButton" type="submit"><i class="fa fa-upload"></i> Upload</button>
+    </div>
+
+</div>
+
+<div id="menuTabs" class="container" style="display:none;">
+    <div id="downloadButtonBlock">
+        <button class="btn btn-outline-success" id="downloadDataChangeBtn"><i class="fa fa-download"></i> Download Changed File</button>
+    </div>
+
+    <ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item dropdown active">
+            <a class="nav-link dropdown-toggle active" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Analysis</a>
+            <div class="dropdown-menu">
+                <a class="dropdown-item" href="#tabDropdownTable" data-toggle="tab">Table</a>
+                <a class="dropdown-item" href="#tabDropdownDiagram" data-toggle="tab">Diagram</a>
+            </div>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#validatedData">Data Editor</a>
+        </li>
+    </ul>
+
+    <div class="tab-content">
+
+        <div id="validatedData" class="container tab-pane fade">
+            <div class="stats" id="stats">
+                <div class="stats__box stats__box--gray"><div class="stats__title">Total Cell Count</div><div class="stats__counter" id="TotalCellsCount">0</div></div>
+                <div class="stats__box stats__box--yellow"><div class="stats__title">Empty Cells</div><div class="stats__counter" id="EmptyCellsCount">0</div></div>
+                <div class="stats__box stats__box--sand"><div class="stats__title">Duplicate Cells</div><div class="stats__counter" id="DuplicateCellsCount">0</div></div>
+                <div class="stats__box stats__box--orange"><div class="stats__title">Wrong Type Cells</div><div class="stats__counter" id="WrongTypeCellsCount">0</div></div>
+                <div class="stats__box stats__box--dark-orange"><div class="stats__title">Wrong Format Cells</div><div class="stats__counter" id="WrongFormatCellsCount">0</div></div>
+                <div class="stats__box stats__box--light-red"><div class="stats__title">Wrong Options Cells</div><div class="stats__counter" id="WrongOptionsCellsCount">0</div></div>
+                <div class="stats__box stats__box--salad"><div class="stats__title">Wrong Ranges Cells</div><div class="stats__counter" id="WrongRangesCellsCount">0</div></div>
+            </div>
+
+            <table id="cellValidationTable" class="hover row-border package-change-history-table" style="width:100%;"></table>
+
+            <div id="noRecordsInErrorTable" style="display: none;">
+                <i class="fa fa-check-circle" style="font-size:208px;color:green"></i>
+            </div>
+        </div>
+
+        <div role="tabpanel" id="tabDropdownTable" class="container tab-pane active">
+            <div class="form-group">
+                <button class="btn btn-info" id="reCheckAnalyze" type="submit"><i class="fa fa-refresh"></i> Redo analyze</button>
+            </div>
+
+            <table id="analysisTable" class="table">
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Type</th>
+                        <th>Valid</th>
+                        <th>Invalid</th>
+                        <th>Null</th>
+                        <th>Non-null</th>
+                        <th>Unique</th>
+                        <th>Distinct</th>
+                        <th>Special Characters</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+        <div role="tabpanel" class="tab-pane" id="tabDropdownDiagram">
+            <div class="diagram-switch d-flex justify-content-end">
+                <input id="diagramSwitch" type="checkbox" checked data-toggle="toggle" data-width="120" data-on="Horizontal" data-off="Vertical" data-onstyle="secondary" data-offstyle="light">
+            </div>
+            <div id="analysisDiagramFirst" class="analysis-canvas">
+                <canvas id="analysisCanvasFirst"></canvas>
+            </div>
+
+            <div id="analysisDiagramSecond" class="analysis-canvas" style="display:none;">
+                <canvas id="analysisCanvasSecond"></canvas>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!--Modals-->
+
+<div id="errorValidationModal" class="modal fade" tabindex="-1" role="dialog" data-backdrop="static">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Cell Error Validation</h5>
+                <button id="errorValidationModalCloseBtn" type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p id="errorValidationErrorMessage" class="alert alert-danger" style="display:none"></p>
+                <div id="cellEditType" class="error-type-text"></div>
+                <div id="cellEditCanNull" class="error-type-text"></div>
+                <div id="cellEditIsUnique" class="error-type-text"></div>
+                <div id="cellEditFormat" class="error-type-text"></div>
+                <div id="cellEditOptions" class="error-type-text"></div>
+                <div id="cellEditRanges" class="error-type-text"></div>
+                <input id="changedValue" class="form-control border-right-0 border" type="search">
+            </div>
+            <div class="modal-footer">
+                <button id="saveErrorChangeButton" class="btn btn-secondary">Save Change</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="packageDocsUploadModal" class="modal fade" tabindex="-1" role="dialog" data-backdrop="static">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Header Settings</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p id="headerSettingsErrorBlock" class="alert alert-danger hidden"></p>
+                <div style="overflow-x:auto;">
+                    <table id="headersTable" class="table">
+                        <thead>
+                            <tr>
+                                <th class="nameHeader">Name</th>
+                                <th class="typeHeader">Type</th>
+                                <th class="uniqueHeader">Unique</th>
+                                <th class="nullHeader">Null</th>
+                                <th class="formatHeader">Format</th>
+                                <th class="optionsHeader">Options</th>
+                                <th class="rangesHeader">Ranges</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="headersSettingsButton" class="btn btn-secondary">Check File</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript" src="~/js/site.js" asp-append-version="true"></script>
+<script type="text/javascript" src="~/js/upload.js" asp-append-version="true"></script>

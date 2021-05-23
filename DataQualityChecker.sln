@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30611.23
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataQualityChecker", "DataQualityChecker\DataQualityChecker.csproj", "{60EA6B3C-D5D0-4D4F-99BA-2334DF8C3078}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DBCleanerService", "DBCleanerService\DBCleanerService.csproj", "{4A081B5A-E585-41F4-B29B-1F74310EFEDA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{60EA6B3C-D5D0-4D4F-99BA-2334DF8C3078}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{60EA6B3C-D5D0-4D4F-99BA-2334DF8C3078}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{60EA6B3C-D5D0-4D4F-99BA-2334DF8C3078}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{60EA6B3C-D5D0-4D4F-99BA-2334DF8C3078}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4A081B5A-E585-41F4-B29B-1F74310EFEDA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4A081B5A-E585-41F4-B29B-1F74310EFEDA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4A081B5A-E585-41F4-B29B-1F74310EFEDA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4A081B5A-E585-41F4-B29B-1F74310EFEDA}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {CA515057-7AFA-4916-9093-8A0C967732AD}
+	EndGlobalSection
+EndGlobal
