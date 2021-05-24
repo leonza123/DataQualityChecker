@@ -5,6 +5,7 @@ CREATE TABLE `DocumentsStorage` (
   `Name` varchar(1000) NOT NULL,
   `SessionID` varchar(40) NOT NULL,
   `Modified` datetime NOT NULL,
+  `HasHeader` bool DEFAULT true,
   PRIMARY KEY (`ID`)
 );
 
@@ -28,6 +29,7 @@ CREATE TABLE `HeaderCells` (
   `Unique` bool,
   `Format` varchar(50) DEFAULT NULL,
   `HasOptions` bool,
+  `Ranges` varchar(1000) DEFAULT NULL,
   PRIMARY KEY (`ID`),
   FOREIGN KEY (`DocumentID`) REFERENCES DocumentsStorage(ID)
 );

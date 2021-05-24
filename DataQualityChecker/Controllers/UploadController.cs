@@ -104,7 +104,6 @@ namespace DataQualityChecker.Controllers
             return JsonConvert.SerializeObject(Methods.GetCounters(sessionID));
         }
 
-
         [HttpGet]
         [Route("api/removerow")]
         public string RemoveRow(string sessionID, int rowID)
@@ -113,6 +112,15 @@ namespace DataQualityChecker.Controllers
             return JsonConvert.SerializeObject(Methods.RemoveRow(sessionID, rowID));
         }
 
+        [HttpGet]
+        [Route("api/updatesession")]
+        public void UpdateSession(string sessionID)
+        {
+            if (!string.IsNullOrEmpty(sessionID))
+            {
+                context.UpdateDocumentsModifyDate(sessionID);
+            }
+        }
 
         // api/downloadfile?sessionID=9d418ac457f0
         [HttpGet]

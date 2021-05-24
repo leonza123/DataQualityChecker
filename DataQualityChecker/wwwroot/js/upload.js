@@ -186,6 +186,8 @@ $(document).ready(function () {
     });
 
     if (sessionID && sessionID.length != 0) {
+        modificationInterval();
+
         $.ajax({
             url: '/api/getvalidation?sessionID=' + sessionID,
             type: "GET",
@@ -249,6 +251,7 @@ $(document).ready(function () {
                       $('#packageDocsUploadModal').modal('show');
 
                       window.history.replaceState(null, null, "?sessionID=" + sessionID);
+                      modificationInterval();
                   } else {
                       $("#fileUploadErrorMessage").text(parsedData.errorMessage);
                       $("#fileUploadErrorMessage").css("display", "block");
@@ -897,4 +900,30 @@ $(document).ready(function () {
             window.open('/api/downloadfile?sessionID=' + sessionID + '', '_blank');
         }
     });
+
+
+    //Session modification
+    function modificationInterval() {
+        $(window).unload(function () {
+            $.ajax({
+                url: '/api/updatesession?sessionID=' + sessionID,
+                type: "GET",
+                success: function (data) {
+                },
+                error: function () {
+                },
+            });
+        });
+
+        setInterval(function () {
+            $.ajax({
+                url: '/api/updatesession?sessionID=' + sessionID,
+                type: "GET",
+                success: function (data) {
+                },
+                error: function () {
+                },
+            });
+        }, 7200000);
+    }
 });

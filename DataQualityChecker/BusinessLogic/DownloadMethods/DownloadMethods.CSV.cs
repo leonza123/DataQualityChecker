@@ -20,22 +20,25 @@ namespace DataQualityChecker.BusinessLogic
             {
                 try 
                 {
+                    bool hasHeader = QualityContext.DocumentHasHeader(sessionID);
                     FileDataForDownload fileData = QualityContext.RetrieveDocumentData(sessionID);
 
                     StringBuilder stringBuilder = new StringBuilder();
                     string csvRow = "";
-                    
-                    //Sort headers
-                    fileData.headers = fileData.headers.OrderBy(x => x.ColumnNum).ToList();
 
-                    //Adding Headers to file
-                    foreach (var header in fileData.headers)
+                    if (hasHeader)
                     {
-                        csvRow += header.CellValue + ",";
-                    }
-                    csvRow = csvRow.Remove(csvRow.Length - 1);
-                    stringBuilder.AppendLine(csvRow);
+                        //Sort headers
+                        fileData.headers = fileData.headers.OrderBy(x => x.ColumnNum).ToList();
 
+                        //Adding Headers to file
+                        foreach (var header in fileData.headers)
+                        {
+                            csvRow += header.CellValue + ",";
+                        }
+                        csvRow = csvRow.Remove(csvRow.Length - 1);
+                        stringBuilder.AppendLine(csvRow);
+                    }
 
                     //Adding Cells to file
                     foreach (var rowData in fileData.cells) 

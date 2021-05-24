@@ -18,15 +18,19 @@ namespace DataQualityChecker.BusinessLogic
             {
                 try 
                 {
+                    bool hasHeader = QualityContext.DocumentHasHeader(sessionID);
                     FileDataForDownload fileData = QualityContext.RetrieveDocumentData(sessionID);
 
                     var workbook = new XLWorkbook();
                     IXLWorksheet worksheet = workbook.Worksheets.Add("ProcessedData");
 
-                    //Adding Headers to file
-                    foreach (var header in fileData.headers)
+                    if (hasHeader)
                     {
-                        worksheet.Cell(1, header.ColumnNum).Value = header.CellValue;
+                        //Adding Headers to file
+                        foreach (var header in fileData.headers)
+                        {
+                            worksheet.Cell(1, header.ColumnNum).Value = header.CellValue;
+                        }
                     }
 
                     //Adding Cells to file

@@ -21,6 +21,11 @@ namespace DataQualityChecker.Data
             }
         }
 
+        public bool DocumentHasHeader(string sessionID) 
+        {
+            return DocumentsStorage.Where(x => x.SessionID == sessionID).Select(z => z.HasHeader).FirstOrDefault();
+        }
+
         public string GetDocumentData(string sessionID) 
         {
             return DocumentsStorage.Where(x => x.SessionID == sessionID).Select(z => z.Name).FirstOrDefault();
@@ -47,21 +52,21 @@ namespace DataQualityChecker.Data
         {
             FileDataForDownload returnData = new FileDataForDownload();
 
-            returnData.documentData = DocumentsStorage.Where(x => x.SessionID == sessionID)
-                                                        .Select(z => new DocumentReturnData 
-                                                        { 
-                                                            Name = z.Name
-                                                        })
-                                                        .FirstOrDefault();
+            var document = DocumentsStorage.Where(x => x.SessionID == sessionID).FirstOrDefault();
 
-            returnData.headers = GetDocumentsStorageQueryForHeaderCells(sessionID)
-                                                    .Select(z => new HeaderReturnData
-                                                    {
-                                                        CellValue = z.CellValue,
-                                                        ColumnNum = z.ColumnNum
-                                                    })
-                                                    .OrderBy(x => x.ColumnNum)
-                                                    .ToList();
+            returnData.documentData = new DocumentReturnData { Name = document.Name };
+
+            if (document.HasHeader)
+            {
+                returnData.headers = GetDocumentsStorageQueryForHeaderCells(sessionID)
+                                                        .Select(z => new HeaderReturnData
+                                                        {
+                                                            CellValue = z.CellValue,
+                                                            ColumnNum = z.ColumnNum
+                                                        })
+                                                        .OrderBy(x => x.ColumnNum)
+                                                        .ToList();
+            }
 
             List<CellReturnData> unsortedCells = GetDocumentsStorageQueryForTableCells(sessionID)
                                                         .Select(x => new CellReturnData
