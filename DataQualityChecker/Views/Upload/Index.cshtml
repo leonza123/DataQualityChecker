@@ -70,6 +70,9 @@
         <li class="nav-item">
             <a class="nav-link" data-toggle="tab" href="#validatedData">Data Editor</a>
         </li>
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#existingData">Existing Data</a>
+        </li>
     </ul>
 
     <div class="tab-content">
@@ -126,6 +129,21 @@
             <div id="analysisDiagramSecond" class="analysis-canvas" style="display:none;">
                 <canvas id="analysisCanvasSecond"></canvas>
             </div>
+        </div>
+
+        <div role="tabpanel" class="tab-pane" id="existingData">
+            <div class="input-group form-group rounded search-block">
+                <input type="text" class="form-control rounded" id="searchField" placeholder="Search" />
+                <a id="searchBtn">
+                    <span class="input-group-text border-0 search-span">
+                        <i class="fa fa-search"></i>
+                    </span>
+                </a>
+            </div>
+
+            <div id="existingDataRepeatablePart" style="display:none;"></div>
+
+            <div id="existingDataNoResults" class="form-group">Search returned 0 results.</div>
 
         </div>
     </div>

@@ -421,3 +421,42 @@ table.dataTable thead .sorting_desc {
 #analysisTable th:first-child {
     text-align: left;
 }
+
+/* Repeatable data styles */
+.repeatable-data {
+    padding: 10px;
+    border-radius: 20px;
+}
+
+.repeatable-data-header {
+    font-weight: bold;
+    font-size: 18px;
+    padding-bottom: 5px;
+}
+
+.repeatable-data-description {
+    font-style: italic;
+    text-align: justify;
+    box-sizing: border-box;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+.repeatable-data-btn {
+    padding: 3px 10px;
+}
+
+.search-span {
+    background: white;
+    height: 100%;
+    width: 100%;
+}
+
+.search-block {
+    padding-top: 15px;
+    width: 60%;
+}
+
+#searchBtn {
+    cursor: pointer;
+}

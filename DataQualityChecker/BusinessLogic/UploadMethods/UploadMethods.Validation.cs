@@ -138,6 +138,7 @@ namespace DataQualityChecker.BusinessLogic
             {
                 try 
                 {
+                    returnData.fileName = QualityContext.GetDocumentData(sessionID).Split('.').First();
                     if (QualityContext.GetDocumentStorageIDBySessionID(sessionID) != 0) 
                     {
                         returnData.counters = QualityContext.GetErrorCounters(sessionID);

@@ -29,6 +29,7 @@ namespace DataQualityChecker.Models
     {
         public bool status { get; set; }
         public string errorMessage { get; set; }
+        public string fileName { get; set; }
         public ValidatedDataCounters counters { get; set; }
     }
 
@@ -36,6 +37,7 @@ namespace DataQualityChecker.Models
     {
         public bool status { get; set; }
         public string errorMessage { get; set; }
+        public string fileName { get; set; }
         public ValidatedDataCounters counters { get; set; }
         public List<TableSettingsModel> settings { get; set; }
     }

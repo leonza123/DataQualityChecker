@@ -108,6 +108,7 @@ namespace DataQualityChecker.BusinessLogic
             {
                 returnData.counters = new ValidatedDataCounters();
                 returnData.counters.AllCells = QualityContext.CountAllCells(jsonData.docID);
+                returnData.fileName = QualityContext.GetDocumentData(jsonData.docID).Split('.').First();
 
                 foreach(var item in jsonData.settings) 
                 {

@@ -167,10 +167,18 @@ namespace DataQualityChecker.Data
                     case (TypeConstants.DateTime):
                         foreach (var item in unformatedTableCells)
                         {
-                            if (!DateTime.TryParseExact(item.CellValue, format, CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime newDate))
+                            if (string.IsNullOrEmpty(item.CellValue))
                             {
                                 SaveCellError(sessionID, item.ColumnNum, item.RowNum, (int)Enums.CellError.FormatDateTime);
                                 counter++;
+                            }
+                            else
+                            {
+                                if (!DateTime.TryParseExact(item.CellValue, format, CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime newDate))
+                                {
+                                    SaveCellError(sessionID, item.ColumnNum, item.RowNum, (int)Enums.CellError.FormatDateTime);
+                                    counter++;
+                                }
                             }
                         }
                         break;
@@ -178,10 +186,18 @@ namespace DataQualityChecker.Data
                     case (TypeConstants.Time):
                         foreach (var item in unformatedTableCells)
                         {
-                            if (!DateTime.TryParseExact(item.CellValue, format, CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime newDate))
+                            if (string.IsNullOrEmpty(item.CellValue))
                             {
                                 SaveCellError(sessionID, item.ColumnNum, item.RowNum, (int)Enums.CellError.FormatDateTime);
                                 counter++;
+                            }
+                            else
+                            {
+                                if (!DateTime.TryParseExact(item.CellValue, format, CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime newDate))
+                                {
+                                    SaveCellError(sessionID, item.ColumnNum, item.RowNum, (int)Enums.CellError.FormatDateTime);
+                                    counter++;
+                                }
                             }
                         }
                         break;
@@ -189,10 +205,18 @@ namespace DataQualityChecker.Data
                     case (TypeConstants.Text):
                         foreach (var item in unformatedTableCells)
                         {
-                            if (!Regex.IsMatch(item.CellValue, format))
+                            if (string.IsNullOrEmpty(item.CellValue))
                             {
-                                SaveCellError(sessionID, item.ColumnNum, item.RowNum, (int)Enums.CellError.FormatText);
+                                SaveCellError(sessionID, item.ColumnNum, item.RowNum, (int)Enums.CellError.FormatDateTime);
                                 counter++;
+                            }
+                            else
+                            {
+                                if (!Regex.IsMatch(item.CellValue, format))
+                                {
+                                    SaveCellError(sessionID, item.ColumnNum, item.RowNum, (int)Enums.CellError.FormatText);
+                                    counter++;
+                                }
                             }
                         }
                         break;

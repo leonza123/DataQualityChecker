@@ -1,4 +1,4 @@
-$(document).ready(function () {
+﻿$(document).ready(function () {
 
     var urlParams = new URLSearchParams(window.location.search);
     var sessionID = urlParams.get('sessionID');
@@ -176,6 +176,8 @@ $(document).ready(function () {
                     $('#packageDocsUploadModal').modal('hide');
 
                     appendAnalysisTable();
+
+                    searchExistingDataAjax(parsedData.fileName);
                 }
             },
             error: function () {
@@ -184,6 +186,49 @@ $(document).ready(function () {
         });
 
     });
+
+    $("#searchBtn").on("click", function (e) {
+        debugger;
+        searchExistingDataAjax($("#searchField").val());
+    });
+
+    function searchExistingDataAjax(searchParam) {
+
+        $("#searchField").val(searchParam);
+
+        $.ajax({
+            url: 'https://data.gov.lv/dati/lv/api/3/action/resource_search?query=name:' + searchParam,
+            type: "GET",
+            success: function (data) {
+                debugger;
+
+                if (data && data.result.count > 0) {
+
+                    var repeatableData = '<div class="repeatable-data form-group border border-secondary">' +
+                                            '<div class="repeatable-data-header">"{dataTitle}"</div>' +
+                                            '<div class="repeatable-data-description">{dataDescription}</div>' +
+                                            '<a class="repeatable-data-btn btn btn-info" href="{dataLink}" target="_blank">Open resource</a>' +
+                                          '</div>';
+                    var htmlData = "";
+
+                    for (var i = 0; i != data.result.results.length; i++) {
+                        htmlData += repeatableData.replace("{dataTitle}", data.result.results[i].name).replace("{dataDescription}", data.result.results[i].description).replace("{dataLink}", data.result.results[i].url);
+                    }
+
+                    $("#existingDataRepeatablePart").html(htmlData);
+                    $("#existingDataRepeatablePart").css("display", "block");
+
+                    $("#existingDataNoResults").css("display", "none");
+                } else {
+                    $("#existingDataNoResults").css("display", "block");
+                    $("#existingDataRepeatablePart").css("display", "none");
+                }                
+            },
+            error: function () {
+
+            },
+        });
+    }    
 
     if (sessionID && sessionID.length != 0) {
         modificationInterval();
@@ -206,6 +251,8 @@ $(document).ready(function () {
                     $('#packageDocsUploadModal').modal('hide');
 
                     appendAnalysisTable();
+
+                    searchExistingDataAjax(parsedData.fileName);
                 }
             },
             error: function () {
@@ -904,7 +951,7 @@ $(document).ready(function () {
 
     //Session modification
     function modificationInterval() {
-        $(window).unload(function () {
+        $(window).on("beforeunload", function () { 
             $.ajax({
                 url: '/api/updatesession?sessionID=' + sessionID,
                 type: "GET",
